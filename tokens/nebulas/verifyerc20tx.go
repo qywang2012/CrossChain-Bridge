@@ -3,6 +3,7 @@ package nebulas
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"math/big"
 	"strings"
 
@@ -65,7 +66,7 @@ func (b *Bridge) verifyErc20SwapinTxReceipt(swapInfo *tokens.TxSwapInfo, receipt
 // ParseErc20SwapinTxLogs parse erc20 swapin tx logs
 func ParseErc20SwapinTx(tx *TransactionResponse, contractAddress, checkToAddress string) (from, to string, value *big.Int, err error) {
 	if tx.To != contractAddress {
-		return "", "", nil, errors.New("failed to check to address.")
+		return "", "", nil, fmt.Errorf("faile to check to:%s token contract:%s", tx.To, contractAddress)
 	}
 	payload, err := LoadCallPayload(tx.Data)
 	if err != nil {
